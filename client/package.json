@@ -1,0 +1,27 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config-react": "^0.36.0",
+    "@types/node": "^18.14.6",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.35.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}
