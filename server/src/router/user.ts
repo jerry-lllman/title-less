@@ -1,16 +1,15 @@
-import Router from 'koa-router'
+import { createRouter } from "../utils/RouterCreator"
 
-const router = new Router()
+const router = createRouter()
 
 router.prefix('/userModule')
 
 router.get('/user/:username', async (ctx) => {
 	const { username } = ctx.params
-	// // @ts-ignore
+	// @ts-ignore
 	// 全局错误捕获中间件会捕获到这个错误
 	// username.a.a.a = 1
-
-	ctx.body = `欢迎${username}`
+	ctx.success(`欢迎${username}`, 'OK')
 })
 
 router.post('/user', async ctx => {

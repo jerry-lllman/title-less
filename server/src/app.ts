@@ -1,29 +1,14 @@
 import Koa from 'koa'
-import Router from 'koa-router'
 
-
-// import userRouter from './router/user'
-
-import allRouterLoader from './common/AllRouterLoader'
+import autoRegisterRouter from './middleware/autoRegisterRouter'
+import globalException from './middleware/GlobalException'
+import ResponseMiddleware from './middleware/ResponseMiddleware'
 
 const app = new Koa()
 
-allRouterLoader.init(app)
-
-const router = new Router()
-
+app.use(ResponseMiddleware)
+app.use(globalException) // 全局异常捕获中间件
 
 
-router.get('/test', async (ctx) => {
-	ctx.body = '测试页面'
-})
-
-// router.use(
-// 	// userRouter.routes(),
-// 	// userRouter.allowedMethods()
-// ).allowedMethods()
-
-// app
-// 	.use(router.routes())
-// 	.listen(4000)
+autoRegisterRouter.init(app) // 自动注册路由
 
