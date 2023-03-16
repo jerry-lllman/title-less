@@ -1,8 +1,8 @@
 import Koa from 'koa'
 
 import autoRegisterRouter from './middleware/autoRegisterRouter'
-import globalException from './middleware/GlobalException'
-import ResponseMiddleware from './middleware/ResponseMiddleware'
+import globalException from './middleware/globalException'
+import ResponseMiddleware from './middleware/responseMiddleware'
 
 const app = new Koa()
 
