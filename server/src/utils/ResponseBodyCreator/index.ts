@@ -15,7 +15,7 @@ export class ResponseBodyCreator {
 		}
 	}
 
-	static success(this: Koa.Context, data: any = undefined, msg?: any) {
+	static success(this: Koa.Context, data: any = undefined, msg: any = 'OK') {
 		ResponseBodyCreator.baseResponse(this, Code.SUCCESS, msg, data)
 	}
 
