@@ -5,12 +5,23 @@ interface EnvConfig {
 	production: PoolOptions
 }
 
+interface ConfigType {
+	host: string,
+	user: string,
+	password: string,
+	port: number,
+	database: string,
+	waitForConnections: boolean,
+	connectionLimit: number,
+	queueLimit: number,
+}
+
 class Config {
 	private static instance: Config = new Config()
 	private env!: keyof EnvConfig
 	private envConfig!: EnvConfig
 	private readonly maxConnections = 10
-	private readonly baseConfig: PoolOptions = {
+	private readonly baseConfig: ConfigType = {
     host: 'localhost',
     user: 'admin',
     password: '123456',
@@ -41,9 +52,9 @@ class Config {
 		}
 	}
 
-	getConfig(): PoolOptions;
-	getConfig<Key extends keyof PoolOptions>(key: Key): PoolOptions[Key];
-	getConfig<Key extends keyof PoolOptions>(key?: Key): any {
+	getConfig(): ConfigType;
+	getConfig<Key extends keyof ConfigType>(key: Key): ConfigType[Key];
+	getConfig<Key extends keyof ConfigType>(key?: Key): any {
 		return key ? this.envConfig[this.env][key] : this.envConfig[this.env]
 	}
 

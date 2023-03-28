@@ -8,7 +8,7 @@ const globalException = async (ctx: Koa.Context & CustomContext, next: Koa.Next)
 	try {
 		await next()
 	} catch (error: any) {
-		ctx.fail(`服务器错误${error.message}`)
+		ctx.fail(`Server Error: ${error.message}`)
 	}
 }
 
