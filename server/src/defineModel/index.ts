@@ -50,6 +50,7 @@ class Userinfo {
 		)
 
 		model.sync({ force: false }) // force 为 true 则表示如果表存在则先删除后创建，为 false 表示不存在则创建该表
+
 		return model
 	}
 

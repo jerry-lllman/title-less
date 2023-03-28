@@ -1,3 +1,4 @@
+import { Op } from "sequelize"
 import { model } from "../defineModel"
 
 class UserDaoDefine {
@@ -11,8 +12,29 @@ class UserDaoDefine {
 		})
 	}
 
+	// 投影查询
+	static async findByAttr() {
+		return model.findAll({
+			raw: true,
+			attributes: ['account', 'nickname']
+		})
+	}
+
+	// 
+	static async findByAccountAndPassword(account: string, password: string) {
+		return model.findOne({
+			raw: true,
+			where: {
+				[Op.and]: [
+					{account},
+					{password}
+				]
+			}
+		})
+	}
+
 }
-export const { addUser, findAllUser } = UserDaoDefine
+export const { addUser, findAllUser, findByAttr, findByAccountAndPassword } = UserDaoDefine
 
 export type Userinfo = {
 	user_id: number,
