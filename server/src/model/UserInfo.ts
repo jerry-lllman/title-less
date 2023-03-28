@@ -1,6 +1,9 @@
 export default class UserInfo {
-	id!: string
-	username!: string
+	user_id!: number
+	account!: string
+	nickname!: string
 	password!: string
+	email!: string
 	address!: string
+	created_at!: string
 }

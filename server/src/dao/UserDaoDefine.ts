@@ -1,25 +1,25 @@
 import { model } from "../defineModel"
 
 class UserDaoDefine {
-  static async addUser(userinfo: Userinfo) {
-    try {
-      const result = await model.create(userinfo)
-      return result
-    } catch (error: any) {
-      if (error.name === 'SequelizeUniqueConstraintError') {
-        // 处理唯一性约束错误
-        throw new Error('The account already exists')
-      } else {
-        throw error
-      }
-    }
-  }
+	static async addUser(userinfo: Userinfo) {
+		return model.create(userinfo)
+	}
+
+	static async findAllUser() {
+		return model.findAll({
+			raw: true // 仅展示原始数据即可，可防止 log 数据太杂乱的干扰
+		})
+	}
+
 }
-export const { addUser } = UserDaoDefine
+export const { addUser, findAllUser } = UserDaoDefine
 
 export type Userinfo = {
 	user_id: number,
-	username: string,
+	account: string,
+	nickname: string,
 	password: string,
-	email: string
+	email: string,
+	address: string,
+	created_at: string
 }
