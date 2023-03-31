@@ -1,19 +1,20 @@
-import { Op } from "sequelize"
+import { Op, Sequelize } from "sequelize"
 import { model } from "../defineModel"
 
 class UserDaoDefine {
-	static async addUser(userinfo: Userinfo) {
+	static instance: UserDaoDefine = new UserDaoDefine()
+	async addUser(userinfo: Userinfo) {
 		return model.create(userinfo)
 	}
 
-	static async findAllUser() {
+	async findAllUser() {
 		return model.findAll({
 			raw: true // 仅展示原始数据即可，可防止 log 数据太杂乱的干扰
 		})
 	}
 
 	// 投影查询
-	static async findByAttr() {
+	async findByAttr() {
 		return model.findAll({
 			raw: true,
 			attributes: ['account', 'nickname']
@@ -21,20 +22,20 @@ class UserDaoDefine {
 	}
 
 	// and 或者 or 查询
-	static async findByAccountAndPassword(account: string, password: string) {
+	async findByAccountAndPassword(account: string, password: string) {
 		return model.findOne({
 			raw: true,
 			where: {
 				[Op.and]: [
-					{account},
-					{password}
+					{ account },
+					{ password }
 				]
 			}
 		})
 	}
 
 	// 模糊查询
-	static async findFuzzyByName(name: string) {
+	async findFuzzyByName(name: string) {
 		const searchKey = `%${name}%`
 		return model.findAll({
 			raw: true,
@@ -46,8 +47,25 @@ class UserDaoDefine {
 		})
 	}
 
+	// 组合查询
+	async combinedQuery() {
+		return model.findAll({
+			raw: true,
+			group: "address", // 3. 将数据根据 address 进行分组
+			attributes: ["address", [Sequelize.fn('count', Sequelize.col('password')), 'total']], // 2. 查询字段 为 address 和 根据 password = "123456"计算出来的 total(count 别名)
+			where: {
+				// 1. 从表中查询 password = "123456" 的数据
+				password: "123456"
+			}
+		})
+		// 上面这段等价于 SQL 语句：
+		// SELECT address, count(password) as total FROM users where password=123456 GROUP BY address
+	}
 }
-export const { addUser, findAllUser, findByAttr, findByAccountAndPassword, findFuzzyByName } = UserDaoDefine
+
+export default UserDaoDefine.instance
+
+// export const { addUser, findAllUser, findByAttr, findByAccountAndPassword, findFuzzyByName } = UserDaoDefine
 
 export type Userinfo = {
 	user_id: number,
