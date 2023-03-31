@@ -1,7 +1,7 @@
 import { createRouter } from "../utils/RouterCreator"
 import logger from "../utils/logger"
 import userDao from "../dao/UserDao"
-import { addUser, findAllUser, findByAccountAndPassword, findByAttr, Userinfo } from "../dao/UserDaoDefine"
+import { addUser, findAllUser, findByAccountAndPassword, findByAttr, findFuzzyByName, Userinfo } from "../dao/UserDaoDefine"
 const router = createRouter()
 
 router.prefix('/userModule')
@@ -45,11 +45,19 @@ router.get('/user/findBy', async ctx => {
 router.post('/user/info', async ctx => {
 	const { account, password } = ctx.request.body
 	const res = await findByAccountAndPassword(account, password)
-	ctx.success(res)
+	if (res) {
+		ctx.success(res)
+	} else {
+		ctx.fail(`The account does not exist or the account password does not match`)
+	}
 })
 
 // 3. 模糊查询
-
+router.get('/user/fuzzy/:nickname', async ctx => {
+	const { nickname } = ctx.params
+	const res = await findFuzzyByName(nickname)
+	ctx.success(res)
+})
 
 // 4. 聚合查询
 

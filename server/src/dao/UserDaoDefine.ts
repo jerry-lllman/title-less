@@ -20,7 +20,7 @@ class UserDaoDefine {
 		})
 	}
 
-	// 
+	// and 或者 or 查询
 	static async findByAccountAndPassword(account: string, password: string) {
 		return model.findOne({
 			raw: true,
@@ -33,8 +33,21 @@ class UserDaoDefine {
 		})
 	}
 
+	// 模糊查询
+	static async findFuzzyByName(name: string) {
+		const searchKey = `%${name}%`
+		return model.findAll({
+			raw: true,
+			where: {
+				nickname: {
+					[Op.like]: searchKey
+				}
+			}
+		})
+	}
+
 }
-export const { addUser, findAllUser, findByAttr, findByAccountAndPassword } = UserDaoDefine
+export const { addUser, findAllUser, findByAttr, findByAccountAndPassword, findFuzzyByName } = UserDaoDefine
 
 export type Userinfo = {
 	user_id: number,
