@@ -76,7 +76,11 @@ router.get('/user/combined', async ctx => {
 })
 
 // 5. 分页查询
-
+router.post('/user/page', async ctx => {
+	const { page, pageSize } = ctx.request.body
+	const res = await userDaoDefine.findUserWithPager({ page, pageSize })
+	ctx.success(res)
+})
 
 
 module.exports = router

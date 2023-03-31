@@ -61,6 +61,16 @@ class UserDaoDefine {
 		// 上面这段等价于 SQL 语句：
 		// SELECT address, count(password) as total FROM users where password=123456 GROUP BY address
 	}
+
+	async findUserWithPager(params: {page: number, pageSize: number}) {
+		const { page,  pageSize} = params
+		return model.findAll({
+			raw: true,
+			limit: pageSize,
+			offset: page
+		})
+
+	}
 }
 
 export default UserDaoDefine.instance
